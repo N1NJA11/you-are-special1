@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Для тебя ✨</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top, rgba(255,182,193,0.22), transparent 30%),
+        radial-gradient(circle at bottom, rgba(255,105,180,0.15), transparent 35%),
+        linear-gradient(180deg, #12061c 0%, #090312 55%, #030106 100%);
+      color: #fff;
+      position: relative;
+    }
+
+    .stars, .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0.15;
+      animation: floatHeart linear infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.8); }
+    }
+
+    @keyframes floatHeart {
+      from {
+        transform: translateY(110vh) scale(0.8);
+        opacity: 0;
+      }
+      10% { opacity: 0.22; }
+      to {
+        transform: translateY(-20vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 24px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ffd3e6;
+      text-shadow: 0 0 12px rgba(255, 170, 210, 0.45);
+      text-align: center;
+    }
+
+    .music-btn {
+      position: absolute;
+      right: 0;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: 0.3s ease;
+    }
+
+    .music-btn:hover {
+      background: rgba(255,255,255,0.16);
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      min-height: calc(100vh - 90px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 0 70px;
+    }
+
+    .hero-box {
+      max-width: 860px;
+      padding: 40px 24px;
+      border-radius: 32px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.35);
+      animation: fadeUp 1.2s ease;
+    }
+
+    .top-note {
+      margin: 18px auto 24px;
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #ffd6e8;
+      font-size: 14px;
+      letter-spacing: 0.4px;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 6vw, 72px);
+      line-height: 1.05;
+      margin-bottom: 18px;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(255, 170, 220, 0.28);
+    }
+
+    .hero h1 span {
+      color: #ffb7d8;
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2vw, 22px);
+      line-height: 1.7;
+      color: #f6dce8;
+      max-width: 680px;
+      margin: 0 auto 28px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      border: none;
+      padding: 14px 24px;
+      font-size: 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.35s ease;
+      font-weight: 700;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, #ff7eb3, #ff4f8a);
+      color: white;
+      box-shadow: 0 10px 28px rgba(255, 79, 138, 0.35);
+    }
+
+    .btn-main:hover,
+    .btn-glass:hover {
+      transform: translateY(-3px) scale(1.03);
+    }
+
+    .btn-glass {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .card {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #ffe7f2;
+      line-height: 1.8;
+      display: none;
+      animation: fadeUp 0.8s ease;
+      text-align: left;
+    }
+
+    .card.active {
+      display: block;
+    }
+
+    .mini-note {
+      margin-top: 24px;
+      color: #eecfdb;
+      opacity: 0.92;
+      font-size: 15px;
+    }
+
+    .floating-message {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(14px);
+      color: white;
+      padding: 20px 28px;
+      border-radius: 22px;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.35s ease;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      max-width: min(92vw, 720px);
+      line-height: 1.7;
+    }
+
+    .floating-message.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.18;
+      z-index: 1;
+    }
+
+    .glow.one {
+      background: #ff4f8a;
+      top: 8%;
+      left: 3%;
+    }
+
+    .glow.two {
+      background: #b86bff;
+      bottom: 6%;
+      right: 5%;
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 20px 30px;
+      color: #f3d7e7;
+      opacity: 0.85;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .hero-box {
+        padding: 28px 18px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="hearts" id="hearts"></div>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <div class="container">
+    <header>
+      <div class="logo">Для самой особенной ✨</div>
+      <button class="music-btn" id="musicBtn">Выключить музыку ♫</button>
+    </header>
+
+    <section class="hero">
+      <div class="hero-box">
+        <h1>Для самой <span>особенной</span></h1>
+        <div class="top-note">Это маленький сайт с очень искренними словами для тебя 💗</div>
+        <p>
+          Этот сайт — маленькое напоминание о том, что есть человек,
+          которому очень хочется видеть твою улыбку, поднимать тебе настроение
+          и делать для тебя что-то по-настоящему тёплое и красивое.
+        </p>
+
+        <div class="buttons">
+          <button class="btn btn-main" onclick="showMessage()">Перед сном… 🌙</button>
+          <button class="btn btn-glass" onclick="openCard('messageCard')">Открыть послание ✉️</button>
+          <button class="btn btn-glass" onclick="openCard('talkCard')">Самое важное 💭</button>
+          <button class="btn btn-glass" onclick="openCard('nightCard')">Доброй ночи 🌙</button>
+        </div>
+
+        <div class="card" id="messageCard">
+          Ты правда особенная. Не из-за громких слов, а из-за того, как ты умеешь
+          оставаться в мыслях, как умеешь быть светлой, красивой и такой,
+          которую хочется беречь.
+          <br><br>
+          Может быть это просто сайт, но в нём есть одна очень искренняя вещь —
+          всё это сделано с теплом именно для тебя.
+        </div>
+
+        <div class="card" id="talkCard">
+          Неважно, что ты скажешь — выбор всегда будет за тобой.
+          Останемся мы друзьями или между нами однажды станет что-то большее,
+          ты всё равно будешь для меня самой особенной.
+          <br><br>
+          Я правда очень рад, что встретил тебя.
+          И для меня важно не только то, что будет дальше,
+          а уже то, что ты вообще появилась в моей жизни.
+          <br><br>
+          Мне просто хочется быть честным с тобой,
+          потому что ты для меня значишь намного больше,
+          чем просто обычный человек.
+        </div>
+
+        <div class="card" id="nightCard">
+          Пусть эта ночь будет спокойной и тёплой для тебя.
+          Пускай все мысли утихнут, а на душе станет легко.
+          <br><br>
+          Закрывай глазки и отдыхай,
+          ты сегодня заслужила спокойствие и уют.
+          <br><br>
+          Доброй ночи тебе 🌙✨
+        </div>
+
+        <div class="mini-note">
+          Иногда один человек может вдохновлять сильнее, чем целый мир.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="floating-message" id="floatingMessage"></div>
+
+  <footer>
+    Сделано с душой специально для тебя.
+  </footer>
+
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const stars = document.getElementById('stars');
+    const hearts = document.getElementById('hearts');
+    const floatingMessage = document.getElementById('floatingMessage');
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const cards = document.querySelectorAll('.card');
+    const finalText = 'Ты для меня уже больше, чем просто человек… и ты всё равно останешься для меня самой особенной. 💗';
+
+    for (let i = 0; i < 90; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      star.style.animationDuration = 2 + Math.random() * 4 + 's';
+      stars.appendChild(star);
+    }
+
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '❤';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 10 + Math.random() * 12 + 's';
+      heart.style.animationDelay = Math.random() * 10 + 's';
+      heart.style.fontSize = 14 + Math.random() * 18 + 'px';
+      hearts.appendChild(heart);
+    }
+
+    function openCard(cardId) {
+      cards.forEach(card => {
+        if (card.id === cardId) {
+          card.classList.toggle('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+    }
+
+    function showMessage() {
+      floatingMessage.classList.add('show');
+      typeText(finalText, floatingMessage, 35);
+      createBurst();
+      setTimeout(() => {
+        floatingMessage.classList.remove('show');
+        floatingMessage.textContent = '';
+      }, 4300);
+    }
+
+    function typeText(text, element, speed) {
+      element.textContent = '';
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(interval);
+        }
+      }, speed);
+    }
+
+    function createBurst() {
+      for (let i = 0; i < 16; i++) {
+        const el = document.createElement('div');
+        el.innerHTML = '💖';
+        el.style.position = 'fixed';
+        el.style.left = '50%';
+        el.style.top = '50%';
+        el.style.transform = 'translate(-50%, -50%)';
+        el.style.pointerEvents = 'none';
+        el.style.zIndex = '9';
+        el.style.fontSize = 18 + Math.random() * 16 + 'px';
+        document.body.appendChild(el);
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 120 + Math.random() * 140;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        el.animate([
+          { transform: 'translate(-50%, -50%) scale(0.8)', opacity: 1 },
+          { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(1.4)`, opacity: 0 }
+        ], {
+          duration: 1400,
+          easing: 'ease-out'
+        });
+
+        setTimeout(() => el.remove(), 1400);
+      }
+    }
+
+    let playing = false;
+    let started = false;
+
+    function startMusic() {
+      if (started) return;
+
+      bgMusic.volume = 0;
+      bgMusic.play().then(() => {
+        let vol = 0;
+        const fade = setInterval(() => {
+          if (vol < 0.3) {
+            vol += 0.02;
+            bgMusic.volume = vol;
+          } else {
+            clearInterval(fade);
+            playing = true;
+            started = true;
+            musicBtn.textContent = 'Выключить музыку ♫';
+          }
+        }, 200);
+      }).catch(() => {});
+    }
+
+    document.addEventListener('click', () => {
+      startMusic();
+    }, { once: true });
+
+    musicBtn.addEventListener('click', async () => {
+      try {
+        if (!playing) {
+          if (!started) {
+            startMusic();
+          } else {
+            bgMusic.volume = 0.3;
+            await bgMusic.play();
+            musicBtn.textContent = 'Выключить музыку ♫';
+            playing = true;
+          }
+        } else {
+          bgMusic.pause();
+          musicBtn.textContent = 'Включить музыку ♫';
+          playing = false;
+        }
+      } catch (e) {
+        alert('Добавь music.mp3 в папку сайта рядом с index.html');
+      }
+    });
+  </script>
+</body>
+</html>
