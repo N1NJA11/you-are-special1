@@ -311,12 +311,12 @@
   <div class="container">
     <header>
       <div class="logo">Для самой особенной ✨</div>
-      <button class="music-btn" id="musicBtn">Выключить музыку ♫</button>
+      
     </header>
 
     <section class="hero">
       <div class="hero-box">
-        <h1>Для самой <span>особенной</span></h1>
+        <h1>Для самой <span>красивой</span></h1>
         <div class="top-note">Это маленький сайт с очень искренними словами для тебя 💗</div>
         <p>
           Этот сайт — маленькое напоминание о том, что есть человек,
@@ -325,7 +325,7 @@
         </p>
 
         <div class="buttons">
-          <button class="btn btn-main" onclick="showMessage()">Перед сном… 🌙</button>
+          <button class="btn btn-main" onclick="showMessage()">Нажми сюда 💗</button>
           <button class="btn btn-glass" onclick="openCard('messageCard')">Открыть послание ✉️</button>
           <button class="btn btn-glass" onclick="openCard('talkCard')">Самое важное 💭</button>
           <button class="btn btn-glass" onclick="openCard('nightCard')">Доброй ночи 🌙</button>
@@ -386,7 +386,6 @@
     const hearts = document.getElementById('hearts');
     const floatingMessage = document.getElementById('floatingMessage');
     const bgMusic = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicBtn');
     const cards = document.querySelectorAll('.card');
     const finalText = 'Ты для меня уже больше, чем просто человек… и ты всё равно останешься для меня самой особенной. 💗';
 
@@ -491,7 +490,7 @@
             clearInterval(fade);
             playing = true;
             started = true;
-            musicBtn.textContent = 'Выключить музыку ♫';
+            
           }
         }, 200);
       }).catch(() => {});
@@ -501,26 +500,7 @@
       startMusic();
     }, { once: true });
 
-    musicBtn.addEventListener('click', async () => {
-      try {
-        if (!playing) {
-          if (!started) {
-            startMusic();
-          } else {
-            bgMusic.volume = 0.3;
-            await bgMusic.play();
-            musicBtn.textContent = 'Выключить музыку ♫';
-            playing = true;
-          }
-        } else {
-          bgMusic.pause();
-          musicBtn.textContent = 'Включить музыку ♫';
-          playing = false;
-        }
-      } catch (e) {
-        alert('Добавь music.mp3 в папку сайта рядом с index.html');
-      }
-    });
+    
   </script>
 </body>
 </html>
